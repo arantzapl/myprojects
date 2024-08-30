@@ -6,6 +6,6 @@ import org.springframework.stereotype.*;
 import aran.dulzurasdelcarmelo.entidades.*;
 
 @Repository
-public interface ProductoRepository extends JpaRepository<Producto, Long>{
-	
+public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
+
 }

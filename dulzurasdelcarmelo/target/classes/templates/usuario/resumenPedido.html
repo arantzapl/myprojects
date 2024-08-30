@@ -31,12 +31,12 @@
 
 		<!-- Page Heading/Breadcrumbs -->
 		<h1 class="mt-4 mb-3">
-			Dulzuras del Carmelo <small>Carrito</small>
+			Dulzuras del Carmelo <small>Resumen del pedido</small>
 		</h1>
 
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-			<li class="breadcrumb-item active">Carrito</li>
+			<li class="breadcrumb-item active">Pedido</li>
 		</ol>
 
 		<!-- Blog Post -->
@@ -44,37 +44,47 @@
 			<div class="card-body">
 				<div class="row">
 					<div class="col-lg-9">
-						<table class="table">
-							<thead>
-								<tr>
-									<th scope="col">Producto</th>
-									<th scope="col">Precio</th>
-									<th scope="col">Cantidad</th>
-									<th scope="col">Total</th>
-									<th scope="col">Acción</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="dpedido:${carrito}">
-									<td th:text="${dpedido.producto.nombre}"></td>
-									<td th:text="${dpedido.producto.precio}"></td>
-									<td th:text="${dpedido.cantidad}"></td>
-									<td th:text="${dpedido.precioTotal}"></td>
-									<td><a th:href="${'/borrar/carrito/' + dpedido.producto.id}" class="btn btn-danger">Quitar</a></td>
-								</tr>
-							</tbody>
-						</table>
+						<div class="card-body">
+							<h5 class="card-title">Datos Pedido</h5>
+							<h6 th:text="'Nombre: ' + ${usuario.nombre}"></h6>
+							<h6 th:text="'Email: ' + ${usuario.email}"></h6>
+							<h6 th:text="'Dirección: ' + ${usuario.direccion}"></h6>
+
+							<h5 class="card-title">Productos</h5>
+							<div class="alert alert-light" role="alert">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">Producto</th>
+											<th scope="col">Precio</th>
+											<th scope="col">Cantidad</th>
+											<th scope="col">Total</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="dtpedido:${carrito}">
+											<td th:text="${dtpedido.producto.nombre}"></td>
+											<td th:text="${dtpedido.producto.precio}"></td>
+											<td th:text="${dtpedido.cantidad}"></td>
+											<td th:text="${dtpedido.precioTotal}"></td>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
 					</div>
+
 
 					<div class="col-lg-3">
-						<h2 class="card-title">Subtotal</h2>
+						<h2 class="card-title">Resumen Pedido</h2>
 
 						<ul class="list-group">
-							<li class="list-group-item"><h5 th:text="${pedido.precioTotal}"></h5></li>
-							<a th:href="@{/resumenPedido}" class="btn btn-dark">Ver Pedido</a>
+							<li class="list-group-item"><h5 th:text="'Total: ' + ${pedido.precioTotal}"></h5></li>
+							<a th:href="@{/guardarPedido}" class="btn btn-dark">Generar</a>
 						</ul>
 					</div>
-
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,7 @@
 package aran.dulzurasdelcarmelo.presentacion.controladores;
 
+import java.io.*;
+import java.time.*;
 import java.util.*;
 
 import org.slf4j.*;
@@ -19,6 +21,14 @@ public class HomeController {
 
 	@Autowired
 	private ProductoService productoService;
+	@Autowired
+	private UsuarioService usuarioService;
+	@Autowired
+	private PedidoService pedidoService;
+	@Autowired
+	private DetallePedidoService detallePedidoService;
+	@Autowired
+	private PdfService pdfService;
 
 	// Para almacenar los detalles del pedido
 	List<DetallePedido> detalles = new ArrayList<DetallePedido>();
@@ -55,18 +65,26 @@ public class HomeController {
 		log.info("Cantidad: {}", cantidad);
 
 		detallePedido.setCantidad(cantidad);
-		detallePedido.setPrecio(producto.getPrecio());
-		detallePedido.setNombre(producto.getNombre());
 		detallePedido.setPrecioTotal(producto.getPrecio() * cantidad);
 		detallePedido.setProducto(producto);
-		
-		//Validar que el producto no se añada dos veces
-		Long idProducto = producto.getId();		
-		boolean introducido = detalles.stream().anyMatch(p -> p.getProducto().getId() == idProducto);
-		
-		if(!introducido) {
+
+		// Validar que el producto no se añada dos veces
+		Long idProducto = producto.getId();
+		DetallePedido introducido = null;
+
+		for (DetallePedido dp : detalles) {
+			if (dp.getProducto().getId().equals(idProducto)) {
+				introducido = dp;
+				break;
+			}
+		}
+
+		if (introducido != null) {
+			introducido.setCantidad(introducido.getCantidad() + detallePedido.getCantidad());
+			introducido.setPrecioTotal(introducido.getPrecioTotal() + detallePedido.getPrecioTotal());
+		} else {
 			detalles.add(detallePedido);
-		}		
+		}
 
 		sumaTotal = detalles.stream().mapToDouble(dt -> dt.getPrecioTotal()).sum();
 
@@ -105,15 +123,58 @@ public class HomeController {
 
 		return "usuario/carrito";
 	}
-	
+
 	@GetMapping("/obtenerCarrito")
 	public String obtenerCarrito(Model modelo) {
-		
+
 		modelo.addAttribute("carrito", detalles);
 		modelo.addAttribute("pedido", pedido);
 
-		
 		return "usuario/carrito";
+	}
+
+	@GetMapping("/resumenPedido")
+	public String resumenPedido(Model modelo) {
+
+		Usuario usuario = usuarioService.verUsuarioPorId(1L);
+
+		modelo.addAttribute("carrito", detalles);
+		modelo.addAttribute("pedido", pedido);
+		modelo.addAttribute("usuario", usuario);
+
+		return "usuario/resumenPedido";
+	}
+
+	// Guardar pedido
+	@GetMapping("/guardarPedido")
+	public String guardarPedido() {
+		LocalDate fechaCreacion = LocalDate.now();
+		pedido.setFechaCreacion(fechaCreacion);
+		pedido.setNumero(pedidoService.generarNumeroPedido());
+
+		// Usuario
+		Usuario usuario = usuarioService.verUsuarioPorId(1L);
+
+		pedido.setUsuario(usuario);
+		pedidoService.guardarPedido(pedido);
+
+		// Guardar detalles
+		for (DetallePedido dt : detalles) {
+			dt.setPedido(pedido);
+			productoService.verProductoPorId(dt.getProducto().getId());
+			detallePedidoService.guardarDetallePedido(dt);
+			try {
+				pdfService.generarPdfPedido(usuario, pedido, detalles);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Limpiar lista y pedido
+		pedido = new Pedido();
+		detalles.clear();
+
+		return "redirect:/";
 	}
 
 }

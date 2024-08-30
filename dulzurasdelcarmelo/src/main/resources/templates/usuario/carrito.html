@@ -56,8 +56,8 @@
 							</thead>
 							<tbody>
 								<tr th:each="dpedido:${carrito}">
-									<td th:text="${dpedido.nombre}"></td>
-									<td th:text="${dpedido.precio}"></td>
+									<td th:text="${dpedido.producto.nombre}"></td>
+									<td th:text="${dpedido.producto.precio}"></td>
 									<td th:text="${dpedido.cantidad}"></td>
 									<td th:text="${dpedido.precioTotal}"></td>
 									<td><a th:href="${'/borrar/carrito/' + dpedido.producto.id}" class="btn btn-danger">Quitar</a></td>
@@ -71,7 +71,7 @@
 
 						<ul class="list-group">
 							<li class="list-group-item"><h5 th:text="${pedido.precioTotal}"></h5></li>
-							<a href="resumenorden.html" class="btn btn-dark">Ver Orden</a>
+							<a th:href="@{/resumenPedido}" class="btn btn-dark">Ver Pedido</a>
 						</ul>
 					</div>
 

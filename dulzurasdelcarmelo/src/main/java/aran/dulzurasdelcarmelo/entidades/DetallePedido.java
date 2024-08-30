@@ -18,17 +18,18 @@ public class DetallePedido {
 	
 //	@NotNull
 //	@Size(min = 3, max = 100)
-	private String nombre;
+//	private String nombre;
 	
 //	@NotNull
 //	@Min(0)
 	private int cantidad;
 	
-	private double precio;
+//	private double precio;
 	
 	private double precioTotal;
 	
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "pedido_id")
 	private Pedido pedido;
 	
 	@ManyToOne
@@ -40,12 +41,12 @@ public class DetallePedido {
 
 	}
 
-	public DetallePedido(Long id, String nombre, int cantidad, double precio, double precioTotal) {
+	public DetallePedido(Long id, int cantidad, double precioTotal) {
 		super();
 		this.id = id;
-		this.nombre = nombre;
+//		this.nombre = nombre;
 		this.cantidad = cantidad;
-		this.precio = precio;
+//		this.precio = precio;
 		this.precioTotal = precioTotal;
 	}
 
@@ -57,13 +58,13 @@ public class DetallePedido {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+//	public String getNombre() {
+//		return nombre;
+//	}
+//
+//	public void setNombre(String nombre) {
+//		this.nombre = nombre;
+//	}
 
 	public int getCantidad() {
 		return cantidad;
@@ -73,13 +74,13 @@ public class DetallePedido {
 		this.cantidad = cantidad;
 	}
 
-	public double getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(double precio) {
-		this.precio = precio;
-	}
+//	public double getPrecio() {
+//		return precio;
+//	}
+//
+//	public void setPrecio(double precio) {
+//		this.precio = precio;
+//	}
 
 	public double getPrecioTotal() {
 		return precioTotal;
@@ -107,8 +108,7 @@ public class DetallePedido {
 
 	@Override
 	public String toString() {
-		return "DetallePedido [id=" + id + ", nombre=" + nombre + ", cantidad=" + cantidad + ", precio=" + precio
-				+ ", precioTotal=" + precioTotal + "]";
+		return "DetallePedido [id=" + id + ", cantidad=" + cantidad + ", precioTotal=" + precioTotal + "]";
 	}
 	
 	

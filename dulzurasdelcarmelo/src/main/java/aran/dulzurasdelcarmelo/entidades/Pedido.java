@@ -1,6 +1,7 @@
 package aran.dulzurasdelcarmelo.entidades;
 
 import java.time.*;
+import java.util.*;
 
 import lombok.*;
 
@@ -20,7 +21,7 @@ public class Pedido {
 	
 //	@NotNull
 //	@Size(min = 3, max = 100)
-	private int numero;
+	private String numero;
 	
 //	@NotNull
 //	@Min(0)
@@ -31,8 +32,8 @@ public class Pedido {
 	@ManyToOne
 	private Usuario usuario;
 	
-	@OneToOne(mappedBy = "pedido")
-	private DetallePedido detallePedido;
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private List<DetallePedido> detallePedido = new ArrayList<>();
 
 	
 
@@ -40,7 +41,7 @@ public class Pedido {
 
 	}
 
-	public Pedido(Long id, int numero, double precioTotal, LocalDate fechaCreacion) {
+	public Pedido(Long id, String numero, double precioTotal, LocalDate fechaCreacion) {
 		super();
 		this.id = id;
 		this.numero = numero;
@@ -56,11 +57,11 @@ public class Pedido {
 		this.id = id;
 	}
 
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
@@ -88,11 +89,11 @@ public class Pedido {
 		this.usuario = usuario;
 	}
 
-	public DetallePedido getDetallePedido() {
+	public List<DetallePedido> getDetallePedido() {
 		return detallePedido;
 	}
 
-	public void setDetallePedido(DetallePedido detallePedido) {
+	public void setDetallePedido(List<DetallePedido> detallePedido) {
 		this.detallePedido = detallePedido;
 	}
 
