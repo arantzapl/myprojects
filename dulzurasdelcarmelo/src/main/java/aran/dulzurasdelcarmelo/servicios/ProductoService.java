@@ -1,5 +1,9 @@
 package aran.dulzurasdelcarmelo.servicios;
 
+import java.util.*;
+
+import org.springframework.data.repository.query.*;
+
 import aran.dulzurasdelcarmelo.entidades.*;
 
 public interface ProductoService {
@@ -21,6 +25,10 @@ public interface ProductoService {
 	}
 	
 	default void borrarProducto(Long id) {
+		throw new UnsupportedOperationException("NO IMPLEMENTADO");
+	}
+	
+	default List<Producto> buscarPorNombre(@Param("nombre") String nombre) {
 		throw new UnsupportedOperationException("NO IMPLEMENTADO");
 	}
 	

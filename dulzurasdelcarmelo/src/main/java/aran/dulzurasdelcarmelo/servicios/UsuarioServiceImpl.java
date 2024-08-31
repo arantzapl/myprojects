@@ -16,6 +16,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario verUsuarioPorId(Long id) {
 		return usuarioRepository.findById(id).orElse(null);
 	}
+
+	@Override
+	public Usuario guardarUsuario(Usuario usuario) {
+		return usuarioRepository.save(usuario);
+	}
+	
 	
 
 }

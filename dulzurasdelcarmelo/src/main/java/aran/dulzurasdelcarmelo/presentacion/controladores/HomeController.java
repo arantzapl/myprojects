@@ -3,12 +3,16 @@ package aran.dulzurasdelcarmelo.presentacion.controladores;
 import java.io.*;
 import java.time.*;
 import java.util.*;
+import java.util.List;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 
 import aran.dulzurasdelcarmelo.entidades.*;
 import aran.dulzurasdelcarmelo.servicios.*;
@@ -27,8 +31,6 @@ public class HomeController {
 	private PedidoService pedidoService;
 	@Autowired
 	private DetallePedidoService detallePedidoService;
-	@Autowired
-	private PdfService pdfService;
 
 	// Para almacenar los detalles del pedido
 	List<DetallePedido> detalles = new ArrayList<DetallePedido>();
@@ -150,7 +152,8 @@ public class HomeController {
 	public String guardarPedido() {
 		LocalDate fechaCreacion = LocalDate.now();
 		pedido.setFechaCreacion(fechaCreacion);
-		pedido.setNumero(pedidoService.generarNumeroPedido());
+		String numPedido = pedidoService.generarNumeroPedido();
+		pedido.setNumero(numPedido);
 
 		// Usuario
 		Usuario usuario = usuarioService.verUsuarioPorId(1L);
@@ -163,10 +166,38 @@ public class HomeController {
 			dt.setPedido(pedido);
 			productoService.verProductoPorId(dt.getProducto().getId());
 			detallePedidoService.guardarDetallePedido(dt);
+			Document document = new Document();
+
 			try {
-				pdfService.generarPdfPedido(usuario, pedido, detalles);
-			} catch (FileNotFoundException e) {
+				// Crear una instancia de PdfWriter para escribir en el archivo
+				PdfWriter.getInstance(document, new FileOutputStream("pedido_" + pedido.getId() + ".pdf"));
+
+				// Abrir el documento para empezar a escribir en él
+				document.open();
+
+				List<DetallePedido> carrito = detalles;
+
+				// Agregar contenido al documento
+				document.add(new Paragraph("Detalles del Pedido"));
+				document.add(new Paragraph("Pedido nº: " + numPedido));
+				document.add(new Paragraph("Nombre del Cliente: " + usuario.getNombre()));
+				document.add(new Paragraph("Email del Cliente: " + usuario.getEmail()));
+				document.add(new Paragraph("Número de teléfono del Cliente: " + usuario.getNumTelefono()));
+				document.add(new Paragraph("Fecha del Pedido: " + pedido.getFechaCreacion()));
+				document.add(new Paragraph("Productos:"));
+
+				if (carrito != null) {
+					for (DetallePedido producto : carrito) {
+						document.add(new Paragraph("Producto: " + producto.getProducto().getNombre() + "\n Cantidad: "
+								+ producto.getCantidad() + "\n Precio: " + producto.getProducto().getPrecio()));
+					}
+					document.add(new Paragraph("Total: " + pedido.getPrecioTotal()));
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				// Asegurarse de cerrar el documento
+				document.close();
 			}
 		}
 
@@ -176,5 +207,12 @@ public class HomeController {
 
 		return "redirect:/";
 	}
+	
+	@GetMapping("/buscar")
+    public String buscarProductos(@RequestParam String nombre, Model model) {
+        List<Producto> productos = productoService.buscarPorNombre(nombre);
+        model.addAttribute("productos", productos);
+        return "usuario/homeUsuario";
+    }
 
 }

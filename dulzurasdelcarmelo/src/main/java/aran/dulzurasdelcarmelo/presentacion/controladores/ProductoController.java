@@ -39,7 +39,7 @@ public class ProductoController {
 	public String guardarProductos(Producto producto, @RequestParam("img") MultipartFile archivo) throws IOException {
 //		LOGGER.info("Este es el objeto producto {}", producto);
 		
-		Usuario admin = new Usuario(1L, "", "", "", "", "", "", 0, 0);
+		Usuario admin = new Usuario(1L, "", "", "", "", "", "", "", 0, 0);
 		producto.setUsuario(admin);
 		
 		// Imagen

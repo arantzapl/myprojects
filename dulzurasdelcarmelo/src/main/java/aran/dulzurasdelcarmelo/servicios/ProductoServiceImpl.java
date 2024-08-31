@@ -1,5 +1,7 @@
 package aran.dulzurasdelcarmelo.servicios;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -36,6 +38,13 @@ public class ProductoServiceImpl implements ProductoService {
 	public void borrarProducto(Long id) {
 		productoRepository.deleteById(id);
 	}
+
+	@Override
+	public List<Producto> buscarPorNombre(String nombre) {
+		return productoRepository.buscarPorNombre(nombre);
+	}
+
+	
 	
 	
 }

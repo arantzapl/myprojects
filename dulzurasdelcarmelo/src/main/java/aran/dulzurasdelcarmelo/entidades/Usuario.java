@@ -34,6 +34,8 @@ public class Usuario {
 	
 	private String password;
 	
+	private String tipo;
+	
 	private int numTelefono;	
 	
 	private int codPostal;
@@ -132,9 +134,17 @@ public class Usuario {
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 	public Usuario(Long id, String nombre, String email, String imagen, String direccion, String localidad,
-			String password, int numTelefono, int codPostal) {
+			String password, String tipo, int numTelefono, int codPostal) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -143,10 +153,11 @@ public class Usuario {
 		this.direccion = direccion;
 		this.localidad = localidad;
 		this.password = password;
+		this.tipo = tipo;
 		this.numTelefono = numTelefono;
 		this.codPostal = codPostal;
 	}
-	
+
 	public Usuario() {
 		
 	}
@@ -154,8 +165,9 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", email=" + email + ", imagen=" + imagen + ", direccion="
-				+ direccion + ", localidad=" + localidad + ", password=" + password + ", numTelefono=" + numTelefono
-				+ ", codPostal=" + codPostal + "]";
+				+ direccion + ", localidad=" + localidad + ", password=" + password + ", tipo=" + tipo
+				+ ", numTelefono=" + numTelefono + ", codPostal=" + codPostal + ", productos=" + productos
+				+ ", pedidos=" + pedidos + "]";
 	}
 	
 	
