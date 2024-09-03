@@ -24,7 +24,7 @@ public class DetallePedido {
 //	@Min(0)
 	private int cantidad;
 	
-//	private double precio;
+	private double precio;
 	
 	private double precioTotal;
 	
@@ -41,12 +41,12 @@ public class DetallePedido {
 
 	}
 
-	public DetallePedido(Long id, int cantidad, double precioTotal) {
+	public DetallePedido(Long id, int cantidad, double precio, double precioTotal) {
 		super();
 		this.id = id;
 //		this.nombre = nombre;
 		this.cantidad = cantidad;
-//		this.precio = precio;
+		this.precio = precio;
 		this.precioTotal = precioTotal;
 	}
 
@@ -74,13 +74,13 @@ public class DetallePedido {
 		this.cantidad = cantidad;
 	}
 
-//	public double getPrecio() {
-//		return precio;
-//	}
-//
-//	public void setPrecio(double precio) {
-//		this.precio = precio;
-//	}
+	public double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
 
 	public double getPrecioTotal() {
 		return precioTotal;
@@ -108,8 +108,10 @@ public class DetallePedido {
 
 	@Override
 	public String toString() {
-		return "DetallePedido [id=" + id + ", cantidad=" + cantidad + ", precioTotal=" + precioTotal + "]";
+		return "DetallePedido [id=" + id + ", cantidad=" + cantidad + ", precio=" + precio + ", precioTotal="
+				+ precioTotal + ", pedido=" + pedido + ", producto=" + producto + "]";
 	}
+
 	
 	
 }

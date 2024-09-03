@@ -21,12 +21,14 @@ public class Usuario {
 //	@NotNull
 //	@Size(min = 3, max = 100)
 	private String nombre;
+
+//	@NotNull
+//	@Size(min = 3, max = 100)
+	private String apellidos;
 	
 //	@NotNull
 //	@Min(0)
 	private String email;
-	
-	private String imagen;
 	
 	private String direccion;
 	
@@ -63,20 +65,20 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getImagen() {
-		return imagen;
-	}
-
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
 	}
 
 	public String getDireccion() {
@@ -143,13 +145,13 @@ public class Usuario {
 		this.tipo = tipo;
 	}
 
-	public Usuario(Long id, String nombre, String email, String imagen, String direccion, String localidad,
-			String password, String tipo, int numTelefono, int codPostal) {
+	public Usuario(Long id, String nombre, String apellidos, String email, String direccion,
+			String localidad, String password, String tipo, int numTelefono, int codPostal) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
+		this.apellidos = apellidos;
 		this.email = email;
-		this.imagen = imagen;
 		this.direccion = direccion;
 		this.localidad = localidad;
 		this.password = password;
@@ -164,10 +166,10 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", email=" + email + ", imagen=" + imagen + ", direccion="
-				+ direccion + ", localidad=" + localidad + ", password=" + password + ", tipo=" + tipo
-				+ ", numTelefono=" + numTelefono + ", codPostal=" + codPostal + ", productos=" + productos
-				+ ", pedidos=" + pedidos + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email
+				+ ", direccion=" + direccion + ", localidad=" + localidad + ", password="
+				+ password + ", tipo=" + tipo + ", numTelefono=" + numTelefono + ", codPostal=" + codPostal
+				+ ", productos=" + productos + ", pedidos=" + pedidos + "]";
 	}
 	
 	

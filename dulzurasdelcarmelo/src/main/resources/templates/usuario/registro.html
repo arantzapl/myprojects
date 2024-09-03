@@ -53,16 +53,21 @@
 				<div class="col-md-8">
 					<div class="card-body">
 						<h2>Registro</h2>
-
 					</div>
 				</div>
 			</div>
 		</div>
 		<form th:action="@{/usuario/guardarUsuario}" method="post">
 			<div class="form-group">
-				<label for="nombres">Nombre:</label> <input type="text"
+				<label for="nombre">Nombre:</label> <input type="text"
 					class="form-control" id="nombre" name="nombre" required
 					placeholder="Ingrese su nombre" autocomplete="off">
+			</div>
+			
+			<div class="form-group">
+				<label for="apellidos">Apellidos:</label> <input type="text"
+					class="form-control" id="apellidos" name="apellidos" required
+					placeholder="Ingrese sus apellidos" autocomplete="off">
 			</div>
 
 			<div class="form-group">
@@ -78,25 +83,25 @@
 			</div>
 			
 			<div class="form-group">
-				<label for="direccion">Localidad:</label> <input type="text"
+				<label for="localidad">Localidad:</label> <input type="text"
 					class="form-control" id="localidad" name="localidad" required
 					placeholder="Ingrese su localidad" autocomplete="off">
 			</div>
 			
 			<div class="form-group">
-				<label for="direccion">Código Postal:</label> <input type="text"
+				<label for="codPostal">Código Postal:</label> <input type="text"
 					class="form-control" id="codPostal" name="codPostal" required
 					placeholder="Ingrese su código postal" autocomplete="off">
 			</div>
 			
 			<div class="form-group">
-				<label for="direccion">Nº Teléfono:</label> <input type="text"
+				<label for="numTelefono">Nº Teléfono:</label> <input type="text"
 					class="form-control" id="numTelefono" name="numTelefono" required
 					placeholder="Ingrese su teléfono de contacto" autocomplete="off">
 			</div>
 			
 			<div class="form-group">
-				<label for="pwd">Contraseña</label> <input type="password"
+				<label for="password">Contraseña:</label> <input type="password"
 					class="form-control" id="password" name="password" required
 					placeholder="Ingrese su contraseña" autocomplete="off">
 			</div>

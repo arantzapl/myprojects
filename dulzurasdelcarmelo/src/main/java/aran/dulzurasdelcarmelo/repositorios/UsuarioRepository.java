@@ -5,7 +5,10 @@ import org.springframework.stereotype.*;
 
 import aran.dulzurasdelcarmelo.entidades.*;
 
+
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
-
+	
+	Usuario findByEmail(String email);
+	
 }

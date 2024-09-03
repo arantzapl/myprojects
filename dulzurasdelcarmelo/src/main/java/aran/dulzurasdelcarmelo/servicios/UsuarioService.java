@@ -11,5 +11,11 @@ public interface UsuarioService {
 	default Usuario guardarUsuario(Usuario usuario) {
 		throw new UnsupportedOperationException("NO IMPLEMENTADO");
 	}
+	
+	default Usuario buscarUsuarioPorEmail(String email) {
+		throw new UnsupportedOperationException("NO IMPLEMENTADO");
+	}
+
+	
 
 }

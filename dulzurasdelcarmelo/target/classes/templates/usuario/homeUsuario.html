@@ -23,7 +23,10 @@
 <body>
 
   <!-- Navigation -->
-  <div th:insert="~{usuario/_plantillaUsuario.html::header}"></div>
+  <div th:insert="~{usuario/_plantillaUsuario.html::header}" th:if="${sesion == null}"></div>
+  
+  <div th:insert="~{usuario/_plantillaUsuario.html::header-user}" th:unless="${sesion == null}"></div>
+
 
     <!-- Page Content -->
 	<div class="container">

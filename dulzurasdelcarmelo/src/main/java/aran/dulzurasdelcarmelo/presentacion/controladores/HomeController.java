@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
+import jakarta.servlet.http.*;
+
 import aran.dulzurasdelcarmelo.entidades.*;
 import aran.dulzurasdelcarmelo.servicios.*;
 
@@ -39,9 +41,15 @@ public class HomeController {
 	Pedido pedido = new Pedido();
 
 	@GetMapping("")
-	public String homeUsuario(Model modelo) {
+	public String homeUsuario(Model modelo, HttpSession session) {
 
+		log.info("Sesión del usuario: {}", session.getAttribute("idusuario"));
+		
 		modelo.addAttribute("productos", productoService.listarProductos());
+		
+		//Session
+		modelo.addAttribute("sesion", session.getAttribute("idusuario"));
+		
 		return "usuario/homeUsuario";
 	}
 
@@ -127,18 +135,21 @@ public class HomeController {
 	}
 
 	@GetMapping("/obtenerCarrito")
-	public String obtenerCarrito(Model modelo) {
+	public String obtenerCarrito(Model modelo, HttpSession session) {
 
 		modelo.addAttribute("carrito", detalles);
 		modelo.addAttribute("pedido", pedido);
+		
+		//Sesion
+		modelo.addAttribute("sesion", session.getAttribute("idusuario"));
 
 		return "usuario/carrito";
 	}
 
 	@GetMapping("/resumenPedido")
-	public String resumenPedido(Model modelo) {
+	public String resumenPedido(Model modelo, HttpSession session) {
 
-		Usuario usuario = usuarioService.verUsuarioPorId(1L);
+		Usuario usuario = usuarioService.verUsuarioPorId(Long.parseLong(session.getAttribute("idusuario").toString()));
 
 		modelo.addAttribute("carrito", detalles);
 		modelo.addAttribute("pedido", pedido);
@@ -149,14 +160,15 @@ public class HomeController {
 
 	// Guardar pedido
 	@GetMapping("/guardarPedido")
-	public String guardarPedido() {
+	public String guardarPedido(HttpSession session) {
 		LocalDate fechaCreacion = LocalDate.now();
 		pedido.setFechaCreacion(fechaCreacion);
 		String numPedido = pedidoService.generarNumeroPedido();
 		pedido.setNumero(numPedido);
+		
 
 		// Usuario
-		Usuario usuario = usuarioService.verUsuarioPorId(1L);
+		Usuario usuario = usuarioService.verUsuarioPorId(Long.parseLong(session.getAttribute("idusuario").toString()));
 
 		pedido.setUsuario(usuario);
 		pedidoService.guardarPedido(pedido);
@@ -165,6 +177,7 @@ public class HomeController {
 		for (DetallePedido dt : detalles) {
 			dt.setPedido(pedido);
 			productoService.verProductoPorId(dt.getProducto().getId());
+			dt.setPrecio(dt.getProducto().getPrecio());
 			detallePedidoService.guardarDetallePedido(dt);
 			Document document = new Document();
 
@@ -189,7 +202,7 @@ public class HomeController {
 				if (carrito != null) {
 					for (DetallePedido producto : carrito) {
 						document.add(new Paragraph("Producto: " + producto.getProducto().getNombre() + "\n Cantidad: "
-								+ producto.getCantidad() + "\n Precio: " + producto.getProducto().getPrecio()));
+								+ producto.getCantidad() + "\n Precio: " + producto.getProducto().getPrecio() + "\n Suma: " + (producto.getProducto().getPrecio()*producto.getCantidad())));
 					}
 					document.add(new Paragraph("Total: " + pedido.getPrecioTotal()));
 				}

@@ -9,6 +9,8 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
 
+import jakarta.servlet.http.*;
+
 import aran.dulzurasdelcarmelo.entidades.*;
 import aran.dulzurasdelcarmelo.servicios.*;
 
@@ -16,10 +18,11 @@ import aran.dulzurasdelcarmelo.servicios.*;
 @RequestMapping("/productos")
 public class ProductoController {
 	
-//	private final Logger LOGGER = LoggerFactory.getLogger(ProductoController.class);
-	
 	@Autowired
 	private ProductoService productoService;
+	
+	@Autowired
+	private UsuarioServiceImpl usuarioService;
 	
 	@Autowired
 	private SubirArchivoService subirArchivoService;
@@ -36,10 +39,10 @@ public class ProductoController {
 	}
 	
 	@PostMapping("/guardarProductos")
-	public String guardarProductos(Producto producto, @RequestParam("img") MultipartFile archivo) throws IOException {
+	public String guardarProductos(Producto producto, @RequestParam("img") MultipartFile archivo, HttpSession session) throws IOException {
 //		LOGGER.info("Este es el objeto producto {}", producto);
 		
-		Usuario admin = new Usuario(1L, "", "", "", "", "", "", "", 0, 0);
+		Usuario admin = usuarioService.verUsuarioPorId(Long.parseLong(session.getAttribute("idusuario").toString()));
 		producto.setUsuario(admin);
 		
 		// Imagen

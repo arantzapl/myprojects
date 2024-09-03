@@ -66,4 +66,9 @@ public class PedidoServiceImpl implements PedidoService {
 		}
 		return numeroConcatenado;
 	}
+	
+	@Override
+	public List<Pedido> listarPedidosPorUsuario(Usuario usuario) {
+		return pedidoRepository.findByUsuario(usuario);
+	}
 }

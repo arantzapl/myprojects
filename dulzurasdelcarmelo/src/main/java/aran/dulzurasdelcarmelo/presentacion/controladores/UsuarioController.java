@@ -1,9 +1,14 @@
 package aran.dulzurasdelcarmelo.presentacion.controladores;
 
+import java.util.*;
+
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.servlet.http.*;
 
 import aran.dulzurasdelcarmelo.entidades.*;
 import aran.dulzurasdelcarmelo.servicios.*;
@@ -17,6 +22,9 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 	
+	@Autowired
+	private PedidoService pedidoService;
+	
 	@GetMapping("/registroUsuario")
 	public String registroUsuario() {
 		return "usuario/registro";
@@ -29,5 +37,44 @@ public class UsuarioController {
 		usuarioService.guardarUsuario(usuario);
 		
 		return "redirect:/";
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "usuario/login";
+	}
+	
+	@PostMapping("/acceder")
+	public String acceder(Usuario usuario, HttpSession session, Model modelo) {
+		log.info("Accesos: {}", usuario);
+		Usuario user = usuarioService.buscarUsuarioPorEmail(usuario.getEmail());
+		log.info("Usuario de db: {}", user);
+		
+		if (user != null) {
+			session.setAttribute("idusuario", user.getId());
+			if (user.getTipo().equals("ADMIN")) {
+				return "redirect:/admin";
+			} else {
+				return "redirect:/";
+			}
+		} else {
+			log.info("Usuario no existe");
+		}
+		
+		
+		return "redirect:/";
+	}
+	
+	@GetMapping("/obtenerCompras")
+	public String obtenerCompras(HttpSession session, Model modelo) {
+		
+		modelo.addAttribute("sesion", session.getAttribute("idusuario"));
+		
+		Usuario usuario = usuarioService.verUsuarioPorId(Long.parseLong(session.getAttribute("idusuario").toString()));
+		List<Pedido> pedidos = pedidoService.listarPedidosPorUsuario(usuario);
+		
+		modelo.addAttribute("pedidos", pedidos);
+		
+		return "usuario/compras";
 	}
 }

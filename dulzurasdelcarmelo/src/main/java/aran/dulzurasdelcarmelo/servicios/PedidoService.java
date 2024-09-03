@@ -21,5 +21,9 @@ public interface PedidoService {
 	default String generarNumeroPedido() {
 		throw new UnsupportedOperationException("NO IMPLEMENTADO");
 	}
+	
+	default List<Pedido> listarPedidosPorUsuario(Usuario usuario) {
+		throw new UnsupportedOperationException("NO IMPLEMENTADO");
+	}
 
 }
