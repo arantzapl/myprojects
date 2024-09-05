@@ -1,5 +1,7 @@
 package aran.dulzurasdelcarmelo.servicios;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -12,6 +14,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	@Override
+	public List<Usuario> listarUsuarios() {
+		return usuarioRepository.findAll();
+	}
+
 	@Override
 	public Usuario verUsuarioPorId(Long id) {
 		return usuarioRepository.findById(id).orElse(null);
