@@ -77,4 +77,18 @@ public class UsuarioController {
 		
 		return "usuario/compras";
 	}
+	
+	@GetMapping("/detalleCompras/{id}")
+	public String detalleCompras(@PathVariable Long id, HttpSession session, Model modelo) {
+		
+		log.info("Id del pedido: {}", id);
+		Pedido pedido = pedidoService.verPedidoPorId(id);
+		
+		modelo.addAttribute("detalles", pedido.getDetallePedido());
+		
+		modelo.addAttribute("sesion", session.getAttribute("idusuario"));
+		
+		
+		return "usuario/detalleCompras";
+	}
 }
