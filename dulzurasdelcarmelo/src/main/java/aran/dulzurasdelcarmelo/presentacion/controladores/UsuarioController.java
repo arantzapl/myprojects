@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ public class UsuarioController {
 	@Autowired
 	private PedidoService pedidoService;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@GetMapping("/registroUsuario")
 	public String registroUsuario() {
 		return "usuario/registro";
@@ -34,6 +38,8 @@ public class UsuarioController {
 	public String guardarUsuario(Usuario usuario) {
 		log.info("Usuario registro: {}", usuario);
 		usuario.setTipo("USER");
+		String contraEncript = passwordEncoder.encode(usuario.getPassword());
+		usuario.setPassword(contraEncript);
 		usuarioService.guardarUsuario(usuario);
 		
 		return "redirect:/";
@@ -60,7 +66,6 @@ public class UsuarioController {
 		} else {
 			log.info("Usuario no existe");
 		}
-		
 		
 		return "redirect:/";
 	}
