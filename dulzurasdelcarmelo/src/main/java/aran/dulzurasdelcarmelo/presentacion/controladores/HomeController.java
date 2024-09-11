@@ -40,7 +40,7 @@ public class HomeController {
 	// Datos del pedido
 	Pedido pedido = new Pedido();
 
-	@GetMapping("")
+	@GetMapping("/")
 	public String homeUsuario(Model modelo, HttpSession session) {
 
 		log.info("Sesión del usuario: {}", session.getAttribute("idusuario"));

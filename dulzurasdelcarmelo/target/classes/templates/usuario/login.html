@@ -59,10 +59,10 @@
     </div>
 
     
-    <form th:action="@{/usuario/acceder}" method="post">
+    <form th:action="@{/usuario/login}" method="post">
       <div class="form-group">
         <label for="email"> Email:  </label>      
-        <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email" required autocomplete="off"> 
+        <input type="email" class="form-control" id="username" name="username" placeholder="Ingrese su email" required autocomplete="off"> 
 
       </div>
 
@@ -73,7 +73,7 @@
 
       <div class="form-group">
         <div class="col-sm-2">
-          <button type="submit" class="btn btn-dark"> <span class="glyphicon glyphicon-ok"></span> Ingresar</button>
+          <button type="submit" class="btn btn-dark"> <span class="glyphicon glyphicon-ok"></span>Ingresar</button>
         </div>      
       </div>    
     </form>

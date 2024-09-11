@@ -50,10 +50,10 @@ public class UsuarioController {
 		return "usuario/login";
 	}
 	
-	@PostMapping("/acceder")
-	public String acceder(Usuario usuario, HttpSession session, Model modelo) {
+	@GetMapping("/acceder")
+	public String acceder(Usuario usuario, HttpSession session) {
 		log.info("Accesos: {}", usuario);
-		Usuario user = usuarioService.buscarUsuarioPorEmail(usuario.getEmail());
+		Usuario user = usuarioService.verUsuarioPorId(Long.parseLong(session.getAttribute("idusuario").toString()));
 		log.info("Usuario de db: {}", user);
 		
 		if (user != null) {
@@ -96,7 +96,7 @@ public class UsuarioController {
 		return "usuario/detalleCompras";
 	}
 	
-	@GetMapping("/logout")
+	@GetMapping("/cerrarSesion")
 	public String logout(HttpSession session) {
 		session.removeAttribute("idusuario");
 		return "redirect:/";
