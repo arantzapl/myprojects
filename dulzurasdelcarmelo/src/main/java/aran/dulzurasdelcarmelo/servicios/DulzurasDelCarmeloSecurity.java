@@ -14,13 +14,13 @@ public class DulzurasDelCarmeloSecurity {
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(requests -> requests.requestMatchers("/administrador/**", "/admin/**").hasRole("ADMIN")
-				.requestMatchers("/productos/**").hasRole("ADMIN")
+		http.authorizeHttpRequests(requests -> requests.requestMatchers("/administrador/**", "/admin/**")
+				.hasRole("ADMIN").requestMatchers("/productos/**").hasRole("ADMIN")
 				.requestMatchers("/usuario/registroUsuario", "/usuario/guardarUsuario").permitAll()
-				.requestMatchers("/css/**", "/vendor/**", "/js/**", "/").permitAll().anyRequest().authenticated())
-				.formLogin(form -> form.loginPage("/usuario/login").permitAll().defaultSuccessUrl("/usuario/acceder",
-						true));
-
+				.requestMatchers("/css/**", "/vendor/**", "/js/**", "/imagenes/**", "/").permitAll().anyRequest()
+				.authenticated())
+				.formLogin(form -> form.loginPage("/usuario/login").permitAll()
+						.defaultSuccessUrl("/usuario/acceder", true));
 		return http.build();
 	}
 

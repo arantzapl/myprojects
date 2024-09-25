@@ -10,13 +10,16 @@
 
 <title>Dulzuras del Carmelo</title>
 
-
 <!-- Bootstrap core CSS -->
 <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
 	rel="stylesheet">
 
+<script src="https://kit.fontawesome.com/a3b08a0546.js"
+	crossorigin="anonymous"></script>
+
 <!-- Custom styles for this template -->
 <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+<link th:href="@{/css/styles.css}" rel="stylesheet">
 
 </head>
 
@@ -25,7 +28,7 @@
 	<div th:insert="~{administrador/_plantillaAdmin.html::header}"></div>
 
 	<!-- Page Content -->
-	<div class="container">
+	<div class="main container">
 
 
 		<!-- Page Heading/Breadcrumbs -->
@@ -39,60 +42,128 @@
 		</ol>
 
 		<h2>Crear Producto</h2>
-		<form class="form-horizontal"
-			th:action="@{/productos/guardarProductos}" method="post"
-			enctype="multipart/form-data">
+		<form class="form-horizontal" th:action="@{/productos/crearProducto}"
+			method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="nombre">Nombre:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="nombre" name="nombre"
-						placeholder="Ingrese el nombre del producto" autocomplete="off"
-						required>
+						placeholder="Ingrese el nombre del producto" required
+						autocomplete="off">
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="descripcion">Descripción:</label>
 				<div class="col-sm-10">
 					<textarea class="form-control" id="descripcion" name="descripcion"
-						placeholder="Ingrese la descripcion del producto" required
-						autocomplete="off"> </textarea>
+						placeholder="Ingrese la descripción del producto" required
+						autocomplete="off"></textarea>
 				</div>
 			</div>
 
+			<!-- Tipo de venta (Unidad/Caja/Bandeja) -->
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="cantidad">Cantidad:</label>
+				<label class="control-label col-sm-2" for="tipo">Tipo de
+					Venta:</label>
 				<div class="col-sm-10">
-					<input type="number" class="form-control" id="cantidad"
-						name="cantidad" placeholder="Ingrese la cantidad del producto"
-						required autocomplete="off">
+					<select class="form-control" id="tipo" name="tipo"
+						onchange="togglePrecioInputs(this)">
+						<option value="unidad">Unidad</option>
+						<option value="caja">Caja</option>
+						<option value="bandeja">Bandeja</option>
+						<option value="caja_y_bandeja">Caja y Bandeja</option>
+					</select>
 				</div>
 			</div>
 
-			<div class="form-group">
-				<label class="control-label col-sm-2" for="precio">Precio:</label>
+			<!-- Precio por unidad -->
+			<div class="form-group" id="precioUnidadGroup">
+				<label class="control-label col-sm-2" for="precioUnidad">Precio
+					por Unidad:</label>
 				<div class="col-sm-10">
-					<input type="number" class="form-control" step="any" id="precio"
-						name="precio" placeholder="Ingrese el precio del producto"
-						autocomplete="off" required>
+					<input type="number" class="form-control" step="any"
+						id="precioUnidad" name="precioUnidad"
+						placeholder="Ingrese el precio por unidad" autocomplete="off">
 				</div>
 			</div>
 
+			<!-- Precio por caja -->
+			<div class="form-group" id="precioCajaGroup" style="display: none;">
+				<label class="control-label col-sm-2" for="precioCaja">Precio
+					por Caja:</label>
+				<div class="col-sm-10">
+					<input type="number" class="form-control" step="any"
+						id="precioCaja" name="precioCaja"
+						placeholder="Ingrese el precio por caja" autocomplete="off">
+				</div>
+			</div>
+
+			<!-- Precio por bandeja -->
+			<div class="form-group" id="precioBandejaGroup"
+				style="display: none;">
+				<label class="control-label col-sm-2" for="precioBandeja">Precio
+					por Bandeja:</label>
+				<div class="col-sm-10">
+					<input type="number" class="form-control" step="any"
+						id="precioBandeja" name="precioBandeja"
+						placeholder="Ingrese el precio por bandeja" autocomplete="off">
+				</div>
+			</div>
+
+			<!-- Imagen del producto -->
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="img">Imagen:</label>
 				<div class="col-sm-10">
-					<input type="file" class="form-control-file" id="img" name="img">
+					<input type="file" class="form-control-file" id="img" name="img"
+						required> <small>Subir imagen del producto.</small>
 				</div>
 			</div>
 
+			<!-- Botón de guardar -->
 			<div class="row">
 				<div class="col-sm-2">
-					<button type="submit" class="btn btn-success">
-						<span class="glyphicon glyphicon-saved"></span> Guardar
-					</button>
+					<button type="submit" class="btn btn-success">Crear</button>
 				</div>
 			</div>
-
 		</form>
+
+		<script>
+			function togglePrecioInputs(selectElement) {
+				var tipoVenta = selectElement.value;
+				var precioUnidadGroup = document
+						.getElementById("precioUnidadGroup");
+				var precioCajaGroup = document
+						.getElementById("precioCajaGroup");
+				var precioBandejaGroup = document
+						.getElementById("precioBandejaGroup");
+
+				if (tipoVenta === "unidad") {
+					precioUnidadGroup.style.display = "block";
+					precioCajaGroup.style.display = "none";
+					precioBandejaGroup.style.display = "none";
+				} else if (tipoVenta === "caja") {
+					precioUnidadGroup.style.display = "none";
+					precioCajaGroup.style.display = "block";
+					precioBandejaGroup.style.display = "none";
+				} else if (tipoVenta === "bandeja") {
+					precioUnidadGroup.style.display = "none";
+					precioCajaGroup.style.display = "none";
+					precioBandejaGroup.style.display = "block";
+				} else if (tipoVenta === "caja_y_bandeja") {
+					precioUnidadGroup.style.display = "none";
+					precioCajaGroup.style.display = "block";
+					precioBandejaGroup.style.display = "block";
+				}
+			}
+
+			document.addEventListener('DOMContentLoaded', function() {
+				var selectElement = document.getElementById('tipo');
+				togglePrecioInputs(selectElement);
+			});
+		</script>
+
+
 
 	</div>
 	<!-- /.container -->

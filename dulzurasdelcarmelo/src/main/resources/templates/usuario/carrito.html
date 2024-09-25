@@ -15,8 +15,13 @@
 <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
 	rel="stylesheet">
 
+<script src="https://kit.fontawesome.com/a3b08a0546.js"
+	crossorigin="anonymous"></script>
+<script th:src="@{/js/cantidades.js}"></script>
+
 <!-- Custom styles for this template -->
 <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+<link th:href="@{/css/styles.css}" rel="stylesheet">
 
 </head>
 
@@ -30,7 +35,7 @@
 		th:unless="${sesion == null}"></div>
 
 	<!-- Page Content -->
-	<div class="container">
+	<div class="main container">
 
 
 		<!-- Page Heading/Breadcrumbs -->
@@ -61,12 +66,20 @@
 							<tbody>
 								<tr th:each="dpedido:${carrito}">
 									<td th:text="${dpedido.producto.nombre}"></td>
-									<td th:text="${dpedido.producto.precio}"></td>
-									<td th:text="${dpedido.cantidad}"></td>
-									<td th:text="${dpedido.precioTotal}"></td>
+									<td><input type="number" id="cantidad" name="cantidad"
+										th:value="${dpedido.cantidad}"
+										data-id="${dpedido.producto.id}"
+										th:attr="data-precio=${dpedido.tipoPresentacion == 'bandeja' ? dpedido.producto.precioBandeja : (dpedido.tipoPresentacion == 'caja' ? dpedido.producto.precioCaja : dpedido.producto.precioUnidad)}"/>
+									</td>
+									<td class="precioTotal" th:text="${dpedido.precioTotal}"></td>
 									<td><a
 										th:href="${'/borrar/carrito/' + dpedido.producto.id}"
 										class="btn btn-danger">Quitar</a></td>
+								</tr>
+
+
+								<tr th:if="${#lists.isEmpty(carrito)}">
+									<td colspan="5" class="text-center">Carrito vacío</td>
 								</tr>
 							</tbody>
 						</table>
@@ -74,18 +87,18 @@
 
 					<div class="col-lg-3">
 						<h2 class="card-title">Subtotal</h2>
-
 						<ul class="list-group">
-							<li class="list-group-item"><h5
-									th:text="${pedido.precioTotal}"></h5></li>
+							<li class="list-group-item">
+								<h5 id="subtotal" th:text="${pedido.precioTotal + ' €'}"></h5>
+							</li>
 							<a th:href="@{/resumenPedido}" class="btn btn-dark">Ver
 								Pedido</a>
 						</ul>
 					</div>
-
 				</div>
 			</div>
 		</div>
+
 	</div>
 	<!-- /.container -->
 

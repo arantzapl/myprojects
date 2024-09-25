@@ -28,6 +28,8 @@ public class DetallePedido {
 	
 	private double precioTotal;
 	
+	private String tipoPresentacion;
+	
 	@ManyToOne
 	@JoinColumn(name = "pedido_id")
 	private Pedido pedido;
@@ -36,19 +38,23 @@ public class DetallePedido {
 	private Producto producto;
 
 	
+	// Constructores
 
 	public DetallePedido() {
 
 	}
 
-	public DetallePedido(Long id, int cantidad, double precio, double precioTotal) {
+	public DetallePedido(Long id, int cantidad, double precio, double precioTotal, String tipoPresentacion) {
 		super();
 		this.id = id;
-//		this.nombre = nombre;
 		this.cantidad = cantidad;
 		this.precio = precio;
 		this.precioTotal = precioTotal;
+		this.tipoPresentacion = tipoPresentacion;
 	}
+
+
+	// Getters y setters
 
 	public Long getId() {
 		return id;
@@ -57,14 +63,6 @@ public class DetallePedido {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-//	public String getNombre() {
-//		return nombre;
-//	}
-//
-//	public void setNombre(String nombre) {
-//		this.nombre = nombre;
-//	}
 
 	public int getCantidad() {
 		return cantidad;
@@ -105,6 +103,18 @@ public class DetallePedido {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
+	
+	public String getTipoPresentacion() {
+		return tipoPresentacion;
+	}
+
+	public void setTipoPresentacion(String tipoPresentacion) {
+		this.tipoPresentacion = tipoPresentacion;
+	}
+	
+	
+	
+	// To String
 
 	@Override
 	public String toString() {

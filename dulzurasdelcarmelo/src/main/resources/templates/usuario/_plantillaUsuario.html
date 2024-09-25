@@ -1,15 +1,17 @@
 <!-- Navigation -->
-<div th:fragment="header">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
+<div th:fragment="header" class="wrapper">
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+		<div class="head container">
 			<a class="navbar-brand" th:href="@{/}">Dulzuras del Carmelo</a>
 
 			<form class="form-inline my-2 my-lg-0" method="get"
 				th:action="@{/buscar}">
-				<input class="form-control mr-sm-2" type="search"
+				<input class="form-control rounded-0" type="search"
 					placeholder="Buscar" aria-label="Search" name="nombre"
 					autocomplete="off">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+				<button class="btn btn-success my-2 my-sm-0 rounded-0" type="submit">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
 			</form>
 
 
@@ -21,25 +23,28 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item"><a class="nav-link"
-						th:href="@{/usuario/login}">Iniciar sesión</a></li>
+						th:href="@{/usuario/login}"><i
+							class="fa-regular fa-user fa-lg"></i></a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 </div>
 
-<div th:fragment="header-user">
+<div th:fragment="header-user" class="wrapper">
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+		<div class="head container">
 			<a class="navbar-brand" th:href="@{/}">Dulzuras del Carmelo</a>
 
 			<form class="form-inline my-2 my-lg-0" method="post"
 				th:action="@{/buscar}">
-				<input class="form-control mr-sm-2" type="search"
+				<input class="form-control rounded-0" type="search"
 					placeholder="Buscar" aria-label="Search" name="nombre"
 					autocomplete="off">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+				<button class="btn btn-success my-2 my-sm-0 rounded-0" type="submit">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
 			</form>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -47,7 +52,7 @@
 				aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			
+
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item dropdown"><a
@@ -58,7 +63,7 @@
 							aria-labelledby="navbarDropdownMenuLink">
 							<a class="dropdown-item" th:href="@{/obtenerCarrito}">Comprar</a>
 							<a class="dropdown-item" th:href="@{/usuario/obtenerCompras}">Compras</a>
-							<a class="dropdown-item" th:href="@{/cerrarSesion}">Cerrar
+							<a class="dropdown-item" th:href="@{/usuario/cerrarSesion}">Cerrar
 								sesión</a>
 						</div></li>
 
@@ -70,10 +75,24 @@
 
 <!-- Footer -->
 <div th:fragment="footer">
-	<footer class="py-5 bg-dark">
+	<footer class="py-3">
 		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; Dulzuras
-				del Carmelo 2024</p>
+			<div class="d-flex justify-content-between align-items-center">
+				<p class="foot m-0 text-left">Copyright &copy; Dulzuras del
+					Carmelo 2024</p>
+				<p class="foot m-0 text-right">
+					<a href="https://www.instagram.com/dulzurasdelcarmelo/"
+						target="_blank" class="m-2"><i
+						class="fa-brands fa-instagram fa-lg"></i></a> <a
+						href="https://www.facebook.com/profile.php?id=100063774924403"
+						target="_blank" class="m-2"><i
+						class="fa-brands fa-facebook fa-lg"></i></a> <a href="#" class="m-2"><i
+						class="fa-solid fa-map-pin fa-lg"></i></a> <a href="tel:+34979880353"
+						class="m-2"><i class="fa-solid fa-phone fa-lg"></i></a> <a
+						href="https://wa.me/722160231" target="_blank" class="m-2"><i
+						class="fa-brands fa-whatsapp fa-lg"></i></a>
+				</p>
+			</div>
 		</div>
 	</footer>
 </div>

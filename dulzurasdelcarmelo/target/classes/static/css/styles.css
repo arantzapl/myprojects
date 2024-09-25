@@ -1,0 +1,29 @@
+/* Estilo para la navegación */
+.navbar, footer {
+    background-color: #412911;
+    color: #e8939b;
+}
+
+/* Estilo para enlaces en el footer */
+.foot > a {
+    color: #e8939b;
+}
+
+/* Estilo para enlaces en el header */
+.navbar > .head > a {
+    color: #e8939b;
+}
+
+/* Contenedor principal */
+.main {
+	margin-top: 2rem;
+    flex-grow: 1; /* El contenido principal se expande para llenar el espacio disponible */
+    padding-top: 20px; /* Espacio opcional para el contenido */
+}
+
+/* Estilo del footer */
+footer {
+    display: flex; /* Usar flexbox en el footer */
+    justify-content: space-between; /* Espaciado entre elementos */
+    align-items: center; /* Centrar elementos verticalmente */
+}

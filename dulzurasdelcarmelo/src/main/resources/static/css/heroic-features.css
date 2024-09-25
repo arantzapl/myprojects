@@ -4,5 +4,9 @@
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-heroic-features/blob/master/LICENSE)
  */
 body {
-  padding-top: 56px;
+    font-family: 'Helvetica Neue Std', 'Helvetica Neue', Arial, sans-serif;
+    display: flex; /* Usar flexbox */
+    flex-direction: column; /* Alinear en columna */
+    min-height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
 }
+

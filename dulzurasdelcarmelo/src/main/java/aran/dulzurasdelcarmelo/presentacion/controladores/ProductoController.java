@@ -1,18 +1,21 @@
 package aran.dulzurasdelcarmelo.presentacion.controladores;
 
-import java.io.*;
+import java.io.IOException;
 
 //import org.slf4j.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
-import org.springframework.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpSession;
 
-import aran.dulzurasdelcarmelo.entidades.*;
-import aran.dulzurasdelcarmelo.servicios.*;
+import aran.dulzurasdelcarmelo.entidades.Producto;
+import aran.dulzurasdelcarmelo.entidades.Usuario;
+import aran.dulzurasdelcarmelo.servicios.ProductoService;
+import aran.dulzurasdelcarmelo.servicios.SubirArchivoService;
+import aran.dulzurasdelcarmelo.servicios.UsuarioServiceImpl;
 
 @Controller
 @RequestMapping("/productos")
@@ -76,7 +79,7 @@ public class ProductoController {
 	}
 	
 	@PostMapping("/modificarProducto")
-	public String modificarProducto(Producto productoActualizado, @RequestParam("img") MultipartFile archivo) throws IOException {
+	public String modificarProducto(Producto productoActualizado, @RequestParam("img") MultipartFile archivo, @RequestParam String tipo) throws IOException {
 		Producto prod = new Producto();
 		prod = productoService.verProductoPorId(productoActualizado.getId());
 		
@@ -92,6 +95,21 @@ public class ProductoController {
 			productoActualizado.setImagen(nombreImagen);
 		}
 		productoActualizado.setUsuario(prod.getUsuario());
+		
+		productoActualizado.setTipo(tipo);
+	    if (tipo.equals("unidad")) {
+	        productoActualizado.setPrecioUnidad(productoActualizado.getPrecioUnidad());
+	        productoActualizado.setPrecioCaja(null); // Eliminar precio de caja si no aplica
+	        productoActualizado.setPrecioBandeja(null); // Eliminar precio de bandeja si no aplica
+	    } else if (tipo.equals("caja")) {
+	        productoActualizado.setPrecioUnidad(null); // Eliminar precio de unidad si no aplica
+	        productoActualizado.setPrecioCaja(productoActualizado.getPrecioCaja());
+	        productoActualizado.setPrecioBandeja(null); // Eliminar precio de bandeja si no aplica
+	    } else if (tipo.equals("bandeja")) {
+	        productoActualizado.setPrecioUnidad(null); // Eliminar precio de unidad si no aplica
+	        productoActualizado.setPrecioCaja(null); // Eliminar precio de caja si no aplica
+	        productoActualizado.setPrecioBandeja(productoActualizado.getPrecioBandeja());
+	    }
 		productoService.modificarProducto(productoActualizado);
 		return "redirect:/productos";
 	}
